@@ -114,7 +114,7 @@
                 <div v-show="showTeacherStat" class="stats shadow bg-base-100">
                     <div class="stat group" ref="teacherStatRef">
                         <div class="stat-title">จำนวนครูทั้งหมด</div>
-                        <div class="stat-value text-secondary">{{ totals.total_teachers || 0 }}</div>
+                        <div class="stat-value text-pink-500">{{ totals.total_teachers || 0 }}</div>
                         <div class="stat-figure">
                             <div ref="teacherIconRef" class="w-20 h-20 transition-transform duration-200"></div>
                         </div>
@@ -199,10 +199,10 @@
                         <div class="stats stats-vertical lg:stats-horizontal bg-base-100 w-full teacher-bg">
                             <div class="stat relative">
                                 <div class="stat-title">เข้า</div>
-                                <div class="stat-value text-secondary">{{ teacher.total - teacher.late }}</div>
+                                <div class="stat-value text-pink-500">{{ teacher.total - teacher.late }}</div>
                                 <div class="stat-desc absolute bottom-2 right-2">
                                     <button @click="showTeacherAttendanceTable"
-                                        class="btn btn-xs btn-secondary btn-plain">
+                                        class="btn btn-xs btn-plain bg-pink-500 border-pink-500 text-white hover:bg-pink-600">
                                         คลิก
                                     </button>
                                 </div>
@@ -1054,6 +1054,6 @@ onMounted(() => {
 }
 
 .teacher-bg {
-    background-color: #fff7d6 !important;
+    background-color: #fde7f3 !important;
 }
 </style>
