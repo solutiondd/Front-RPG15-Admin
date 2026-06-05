@@ -23,7 +23,7 @@
                     <button v-for="grade in availableGrades" :key="grade.value" @click="selectedGrade = grade.value"
                         :class="[
                             'btn btn-sm',
-                            selectedGrade === grade.value ? 'btn-secondary' : 'btn-ghost'
+                            selectedGrade === grade.value ? 'btn-error' : 'btn-ghost'
                         ]">
                         {{ grade.label }}
                     </button>

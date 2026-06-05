@@ -26,6 +26,6 @@ const handleToggleMobileMenu = () => {
 
 <style scoped>
 .bg{
-    background: linear-gradient(135deg, #1e3a8a 55%, #ec4899 100%);
+    background: linear-gradient(95deg, #f87171 35%, #ffffff 100%);
 }
 </style>

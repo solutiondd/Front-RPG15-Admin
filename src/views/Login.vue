@@ -5,10 +5,10 @@
                 <div class="card-body p-4 sm:p-6">
                     <div class="flex flex-col items-center mb-4 animate-logo">
                         <img :src="logoUrl" alt="Chakkam Khanathon School Logo" class="school-logo mb-2" />
-                        <h2 class="school-title text-blue-900 font-bold text-xl sm:text-2xl text-center drop-shadow">
+                        <h2 class="school-title text-red-600 font-bold text-xl sm:text-2xl text-center drop-shadow">
                             โรงเรียนราชประชานุเคราะห์ 15
                         </h2>
-                        <div class="text-blue-900 font-medium text-base sm:text-lg text-center drop-shadow mb-1">
+                        <div class="text-red-600 font-medium text-base sm:text-lg text-center drop-shadow mb-1">
                             จังหวัดเชียงราย
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                                     class="input input-bordered w-full pr-16" placeholder="••••••••"
                                     autocomplete="current-password" />
                                 <button type="button"
-                                    class="absolute top-1/2 right-4 -translate-y-1/2 btn btn-ghost btn-xs font-medium text-blue-900"
+                                    class="absolute top-1/2 right-4 -translate-y-1/2 btn btn-ghost btn-xs font-medium text-red-600"
                                     @click="showPassword = !showPassword" style="min-width: 44px;">
                                     <span v-if="showPassword">ซ่อน</span>
                                     <span v-else>แสดง</span>
@@ -258,7 +258,7 @@ async function onSubmit() {
 
 <style scoped>
 .login-bg {
-    background: linear-gradient(135deg, #1e3a8a 55%, #ec4899 100%);
+    background: linear-gradient(135deg, #f87171 35%, #ffffff 100%);
 }
 
 .school-logo {
@@ -284,43 +284,43 @@ async function onSubmit() {
 }
 
 .school-title {
-    color: #ec4899;
-    text-shadow: 1px 1px 0 #1e3a8a, 0 2px 8px #1e3a8a33;
+    color: #dc2626;
+    text-shadow: 1px 1px 0 #ffffff, 0 2px 8px #7f1d1d33;
     letter-spacing: 1px;
 }
 
 .card {
-    border: 2px solid #1e3a8a;
+    border: 2px solid #f87171;
     border-radius: 1.5rem;
     background: rgba(255, 255, 255, 0.95);
 }
 
 .card-title {
-    color: #1e3a8a;
+    color: #dc2626;
 }
 
 .btn-primary.login-btn {
-    background: linear-gradient(90deg, #1e3a8a 65%, #ec4899 100%);
+    background: linear-gradient(90deg, #dc2626 55%, #f87171 100%);
     color: #fff;
     border: none;
     transition: transform 0.18s cubic-bezier(.68, -0.55, .27, 1.55), box-shadow 0.18s;
-    box-shadow: 0 2px 8px #1e3a8a22;
+    box-shadow: 0 2px 8px #dc262633;
 }
 
 .btn-primary.login-btn:hover:not(:disabled) {
     transform: scale(1.06);
-    box-shadow: 0 4px 16px #ec489944;
-    background: linear-gradient(90deg, #1e3a8a 45%, #ec4899 100%);
+    box-shadow: 0 4px 16px #f8717155;
+    background: linear-gradient(90deg, #dc2626 45%, #f87171 100%);
 }
 
 .input,
 .input-bordered {
-    border: 1.5px solid #1e3a8a;
+    border: 1.5px solid #f87171;
     background: #fff;
 }
 
 .label-text {
-    color: #1e3a8a;
+    color: #dc2626;
     font-weight: 500;
 }
 

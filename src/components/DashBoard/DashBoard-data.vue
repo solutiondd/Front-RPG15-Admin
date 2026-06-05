@@ -15,7 +15,7 @@
                     <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
                 <h3 class="font-bold text-lg mb-4">รายการเข้าเรียน{{ attendanceRole === 'teacher' ? 'ครู' : 'นักเรียน'
-                }} วันที่ {{ displayDate }}</h3>
+                    }} วันที่ {{ displayDate }}</h3>
                 <div v-if="attendanceRole === 'student'">
                     <Attendance :role="'student'" :date="selectedDate" v-if="residentRole !== 'teacher'" />
                     <Attendance :role="'student'" :date="selectedDate" v-else :fixed-grade="localGrade"
@@ -55,7 +55,7 @@
                     <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                 </form>
                 <h3 class="font-bold text-lg mb-4">รายการที่ไม่ได้สแกน{{ missedRole === 'teacher' ? 'ครู' : 'นักเรียน'
-                }} วันที่
+                    }} วันที่
                     {{ displayDate }}</h3>
 
                 <MissedTable :data="missedData" :pagination="missedPagination" :hide-export="true"
@@ -103,7 +103,7 @@
                 <div v-show="showStudentStat" class="stats shadow bg-base-100">
                     <div class="stat group" ref="studentStatRef">
                         <div class="stat-title">จำนวนนักเรียนทั้งหมด</div>
-                        <div class="stat-value text-primary">{{ totals.total_students || 0 }}</div>
+                        <div class="stat-value text-red-500">{{ totals.total_students || 0 }}</div>
                         <div class="stat-figure">
                             <div ref="studentIconRef" class="w-20 h-20 transition-transform duration-200"></div>
                         </div>
@@ -114,7 +114,7 @@
                 <div v-show="showTeacherStat" class="stats shadow bg-base-100">
                     <div class="stat group" ref="teacherStatRef">
                         <div class="stat-title">จำนวนครูทั้งหมด</div>
-                        <div class="stat-value text-pink-500">{{ totals.total_teachers || 0 }}</div>
+                        <div class="stat-value text-primary">{{ totals.total_teachers || 0 }}</div>
                         <div class="stat-figure">
                             <div ref="teacherIconRef" class="w-20 h-20 transition-transform duration-200"></div>
                         </div>
@@ -125,7 +125,7 @@
                 <div v-show="showCombinedStat" class="stats shadow bg-base-100">
                     <div class="stat group" ref="combinedStatRef">
                         <div class="stat-title">ทั้งหมดที่เข้า</div>
-                        <div class="stat-value text-purple-500">{{ totalCombined }}</div>
+                        <div class="stat-value">{{ totalCombined }}</div>
                         <div class="stat-desc">ประจำวันที่ {{ displayDate }}</div>
                         <div class="stat-figure">
                             <div ref="combinedIconRef" class="w-20 h-20 transition-transform duration-200"></div>
@@ -144,9 +144,10 @@
                         <div class="stats stats-vertical lg:stats-horizontal bg-base-100 w-full student-bg">
                             <div class="stat relative">
                                 <div class="stat-title">เข้า</div>
-                                <div class="stat-value text-primary">{{ student.total - student.late }}</div>
+                                <div class="stat-value text-red-500">{{ student.total - student.late }}</div>
                                 <div class="stat-desc absolute bottom-2 right-2">
-                                    <button @click="showAttendanceTable" class="btn btn-xs btn-primary btn-plain">
+                                    <button @click="showAttendanceTable"
+                                        class="btn btn-xs btn-plain bg-red-500 border-red-500 text-white hover:bg-red-600">
                                         คลิก
                                     </button>
                                 </div>
@@ -199,10 +200,10 @@
                         <div class="stats stats-vertical lg:stats-horizontal bg-base-100 w-full teacher-bg">
                             <div class="stat relative">
                                 <div class="stat-title">เข้า</div>
-                                <div class="stat-value text-pink-500">{{ teacher.total - teacher.late }}</div>
+                                <div class="stat-value text-primary">{{ teacher.total - teacher.late }}</div>
                                 <div class="stat-desc absolute bottom-2 right-2">
                                     <button @click="showTeacherAttendanceTable"
-                                        class="btn btn-xs btn-plain bg-pink-500 border-pink-500 text-white hover:bg-pink-600">
+                                        class="btn btn-xs btn-plain bg-primary border-primary text-white hover:bg-primary-dark">
                                         คลิก
                                     </button>
                                 </div>
@@ -1050,10 +1051,10 @@ onMounted(() => {
 }
 
 .student-bg {
-    background-color: #e3f0ff !important;
+    background-color: #ffffff !important;
 }
 
 .teacher-bg {
-    background-color: #fde7f3 !important;
+    background-color: #ffffff !important;
 }
 </style>
