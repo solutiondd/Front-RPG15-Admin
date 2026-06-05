@@ -26,7 +26,7 @@
                 <div v-show="isExpanded" class="transition-opacity duration-300">
                     <h2 class="text-sm font-bold text-red-500 whitespace-nowrap">โรงเรียนราชประชานุเคราะห์ 15
                     </h2>
-                    <p class="text-sm font-medium whitespace-nowrap">จังหวัดเชียงราย</p>
+                    <p class="text-sm font-medium whitespace-nowrap text-yellow-900">จังหวัดเชียงราย</p>
                 </div>
             </div>
         </div>

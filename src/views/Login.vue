@@ -8,7 +8,7 @@
                         <h2 class="school-title text-red-600 font-bold text-xl sm:text-2xl text-center drop-shadow">
                             โรงเรียนราชประชานุเคราะห์ 15
                         </h2>
-                        <div class="text-red-600 font-medium text-base sm:text-lg text-center drop-shadow mb-1">
+                        <div class="text-yellow-900 font-medium text-base sm:text-lg text-center drop-shadow mb-1">
                             จังหวัดเชียงราย
                         </div>
                     </div>
