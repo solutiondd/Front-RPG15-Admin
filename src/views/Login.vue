@@ -105,7 +105,7 @@ onMounted(() => {
     if (savedUsername && savedPassword) {
         form.username = savedUsername
         try {
-            const bytes = CryptoJS.AES.decrypt(savedPassword, 'School2025')
+            const bytes = CryptoJS.AES.decrypt(savedPassword, 'RPG15School2025')
             form.password = bytes.toString(CryptoJS.enc.Utf8)
         } catch (e) {
             form.password = ''
