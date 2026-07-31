@@ -30,9 +30,20 @@ export default {
     enableLineStatusFilter: false, // true = แสดงตัวกรองสถานะ LINE, false = ซ่อน
   },
 
+  // ฟีเจอร์สำหรับหน้า Home
+  home: {
+    enableProgress: false, // true = แสดง Progress, false = ซ่อน
+  },
+
   // ฟีเจอร์สำหรับเมนู
   menu: {
     enableUniformInspection: true, // เมนูตรวจเครื่องแบบ
     enableReportUniformInspection: true, // เมนูรายงานตรวจระเบียบ
+    enableAllowanceSetting: true, // เมนูตั้งค่าสาย
+  },
+
+  // ฟรีเจอร์ลบรายงานตรวจระเบียบ
+  reportUniformInspection: {
+    enableDelete: false, // true = แสดงปุ่มลบในตารางรายงานตรวจระเบียบ, false = ซ่อน
   },
 };

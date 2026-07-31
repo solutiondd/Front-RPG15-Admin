@@ -19,6 +19,7 @@
             <table class="table w-full">
                 <thead>
                     <tr class="bg-primary text-primary-content">
+                        <th class="w-12 text-center">#</th>
                         <th class="text-center">รหัส</th>
                         <th class="text-center">โปรไฟล์</th>
                         <th>ชื่อ - นามสกุล</th>
@@ -34,11 +35,14 @@
                 </thead>
                 <tbody>
                     <tr v-if="data.length === 0">
-                        <td colspan="8" class="text-center py-8 text-base-content/60">
+                        <td colspan="9" class="text-center py-8 text-base-content/60">
                             ไม่พบข้อมูล
                         </td>
                     </tr>
-                    <tr v-for="item in data" :key="item._id">
+                    <tr v-for="(item, index) in data" :key="item._id">
+                        <td class="text-center">
+                            {{ ((pagination?.page || 1) - 1) * (pagination?.limit || 10) + index + 1 }}
+                        </td>
                         <td class="text-center">{{ item.userid }}</td>
                         <td class="text-center">
                             <div v-if="item.picture" class="avatar inline-flex">
@@ -57,14 +61,14 @@
                         <td>{{ item.name }}</td>
                         <td class="text-center">
                             <span v-if="role === 'student'">{{ formatGradeClassroomDisplay(item.grade, item.classroom)
-                            }}</span>
+                                }}</span>
                             <span v-else>{{ item.department || '-' }}</span>
                         </td>
                         <td class="text-center">{{ totalDays }}</td>
                         <td class="text-center text-green-600">{{ countPresentNormal(item.attendances) }}</td>
                         <td class="text-center text-red-500">{{ totalDays - countPresentNormal(item.attendances) -
-                            countLate(item.attendances) }}</td>
-                        <td class="text-center text-blue-500">{{ countLate(item.attendances) }}</td>
+                            countLate(item) }}</td>
+                        <td class="text-center text-blue-500">{{ countLate(item) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -82,7 +86,7 @@
                         <h3 class="font-bold text-lg">{{ item.name }}</h3>
                         <p class="text-sm text-base-content/70">
                             <span v-if="role === 'student'">{{ formatGradeClassroomDisplay(item.grade, item.classroom)
-                            }}</span>
+                                }}</span>
                             <span v-else>{{ item.department || '-' }}</span>
                         </p>
                     </div>
@@ -113,11 +117,11 @@
                     <div>
                         <span class="text-base-content/60">ไม่ได้สแกน</span>
                         <p class="font-medium text-red-500">{{ totalDays - countPresentNormal(item.attendances) -
-                            countLate(item.attendances) }}</p>
+                            countLate(item) }}</p>
                     </div>
                     <div>
                         <span class="text-base-content/60">มาสาย</span>
-                        <p class="font-medium text-blue-500">{{ countLate(item.attendances) }}</p>
+                        <p class="font-medium text-blue-500">{{ countLate(item) }}</p>
                     </div>
                 </div>
             </div>
@@ -609,7 +613,7 @@ async function exportAllToExcel() {
         const totalDaysVal = workingDaysArr.length
         const rows = allData.map(item => {
             const presentNormal = countPresentNormal(item.attendances)
-            const late = countLate(item.attendances)
+            const late = countLate(item)
             return {
                 'รหัส': item.userid,
                 'ชื่อ - นามสกุล': item.name,
@@ -759,14 +763,18 @@ function countPresentNormal(attendances) {
     return count
 }
 
-function countLate(attendances) {
-    if (!attendances) return 0
+function countLate(item) {
+    if (item && Array.isArray(item.late_dates)) {
+        return item.late_dates.length
+    }
+
+    const attendances = item.attendances || item
+    if (!Array.isArray(attendances)) return 0
+
     let lateCount = 0
     attendances.forEach(att => {
         if (!att.timeStamps || att.timeStamps.length === 0) return
-        const first = att.timeStamps
-            .map(ts => ts.timestamp)
-            .sort()[0]
+        const first = att.timeStamps.map(ts => ts.timestamp).sort()[0]
         if (first) {
             const time = first.split(' ')[1]
             if (time > '08:01:00') lateCount++

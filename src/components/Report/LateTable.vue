@@ -14,6 +14,7 @@
             <table class="table table-zebra w-full">
                 <thead>
                     <tr class="bg-primary text-primary-content">
+                        <th class="text-center w-16">#</th>
                         <th class="text-center w-20 min-w-[60px] max-w-[80px]">รหัส</th>
                         <th class="text-center w-20 min-w-[60px] max-w-[80px]">โปรไฟล์</th>
                         <th>ชื่อ-สกุล</th>
@@ -27,13 +28,16 @@
                 </thead>
                 <tbody>
                     <tr v-if="data.length === 0">
-                        <td colspan="9" class="text-center py-8 text-base-content/60">
+                        <td colspan="10" class="text-center py-8 text-base-content/60">
                             ไม่พบข้อมูล
                         </td>
                     </tr>
-                    <template v-for="item in sortedData" :key="item._id">
+                    <template v-for="(item, index) in sortedData" :key="item._id">
                         <template v-if="item.late_dates && item.late_dates.length > 0">
                             <tr class="hover" :key="item._id + '-first'">
+                                <td class="text-center">
+                                    {{ ((pagination.page - 1) * pagination.limit) + index + 1 }}
+                                </td>
                                 <td class="text-center w-20 min-w-[60px] max-w-[80px]">{{ item.userid }}</td>
                                 <td class="text-center w-20 min-w-[60px] max-w-[80px]">
                                     <div v-if="item.picture" class="avatar cursor-pointer inline-flex"
@@ -55,19 +59,20 @@
                                 <td class="text-center">
                                     <span v-if="item.position === 'นักเรียน'">{{ formatGradeClassroomDisplay(item.grade,
                                         item.classroom) }}</span>
-                                    <span v-else>-</span>
+                                    <span v-else>{{ item.department || '-' }}</span>
                                 </td>
                                 <td class="text-center">{{ formatDate(item.late_dates[0].date) }}</td>
                                 <td class="text-center">
                                     <span v-if="getEntry(item.late_dates[0]) !== '-'"
                                         class="badge badge-info badge-md px-4 py-2">{{
-                                            getEntry(item.late_dates[0]) }}</span>
+                                            getEntry(item.late_dates[0]).substring(0, 5) }}</span>
                                     <span v-else class="badge badge-error badge-md px-4 py-2">-</span>
                                 </td>
                                 <td class="text-center">
                                     <span v-if="getEntry(item.late_dates[0]) !== '-'"
                                         class="badge badge-warning badge-md px-4 py-2">{{
-                                            computeLateTime(getEntry(item.late_dates[0])) }}</span>
+                                            computeLateTime(getEntry(item.late_dates[0]), item.role, item.position)
+                                        }}</span>
                                     <span v-else class="badge badge-warning badge-md px-4 py-2">-</span>
                                 </td>
                                 <td class="text-center">
@@ -101,6 +106,7 @@
                             </tr>
                             <template v-for="(late, lateIdx) in item.late_dates" :key="item._id + '-late-' + lateIdx">
                                 <tr v-if="lateIdx > 0" class="hover">
+                                    <td class="text-center"></td>
                                     <td class="text-center w-20 min-w-[60px] max-w-[80px]"></td>
                                     <td class="text-center w-20 min-w-[60px] max-w-[80px]"></td>
                                     <td></td>
@@ -110,13 +116,13 @@
                                     <td class="text-center">
                                         <span v-if="getEntry(late) !== '-'"
                                             class="badge badge-info badge-md px-4 py-2">{{
-                                                getEntry(late) }}</span>
+                                                getEntry(late).substring(0, 5) }}</span>
                                         <span v-else class="badge badge-error badge-md px-4 py-2">-</span>
                                     </td>
                                     <td class="text-center">
                                         <span v-if="getEntry(late) !== '-'"
                                             class="badge badge-warning badge-md px-4 py-2">{{
-                                                computeLateTime(getEntry(late)) }}</span>
+                                                computeLateTime(getEntry(late), item.role, item.position) }}</span>
                                         <span v-else class="badge badge-warning badge-md px-4 py-2">-</span>
                                     </td>
                                     <td class="text-center">
@@ -150,6 +156,9 @@
                             </template>
                         </template>
                         <tr v-else class="hover">
+                            <td class="text-center font-bold">
+                                {{ ((pagination.page - 1) * pagination.limit) + index + 1 }}
+                            </td>
                             <td class="text-center w-20 min-w-[60px] max-w-[80px]">{{ item.userid }}</td>
                             <td class="text-center w-20 min-w-[60px] max-w-[80px]">
                                 <div v-if="item.picture" class="avatar cursor-pointer inline-flex"
@@ -171,7 +180,7 @@
                             <td class="text-center">
                                 <span v-if="item.position === 'นักเรียน'">{{ formatGradeClassroomDisplay(item.grade,
                                     item.classroom) }}</span>
-                                <span v-else>-</span>
+                                <span v-else>{{ item.department || '-' }}</span>
                             </td>
                             <td class="text-center">-</td>
                             <td class="text-center"><span class="badge badge-error badge-sm">-</span></td>
@@ -225,13 +234,13 @@
                             <div class="flex-1 text-center">
                                 <span class="text-xs text-base-content/60 block">เข้า</span>
                                 <span v-if="getEntry(late) !== '-'" class="badge badge-success badge-sm">{{
-                                    getEntry(late) }}</span>
+                                    getEntry(late).substring(0, 5) }}</span>
                                 <span v-else class="badge badge-error badge-sm">ไม่มีเข้า</span>
                             </div>
                             <div class="flex-1 text-center">
                                 <span class="text-xs text-base-content/60 block">เวลาสาย</span>
                                 <span class="badge badge-warning badge-sm" v-if="getEntry(late) !== '-'">{{
-                                    computeLateTime(getEntry(late)) }}</span>
+                                    computeLateTime(getEntry(late), item.role, item.position) }}</span>
                                 <span class="badge badge-error badge-sm" v-else>-</span>
                             </div>
                         </div>
@@ -359,7 +368,7 @@ async function exportLateToExcel() {
                             : (item.department || '-'),
                         'วันที่': formatDate(late.date),
                         'เวลาเข้า': getFirstTime(late),
-                        'มาสาย(ชม.)': computeLateTime(getFirstTimeFull(late)),
+                        'มาสาย(ชม.)': computeLateTime(getFirstTimeFull(late), item.role, item.position),
                     });
                 });
             } else {
@@ -463,6 +472,10 @@ const props = defineProps({
     summaryTextColor: {
         type: String,
         default: 'text-white'
+    },
+    allowanceRules: {
+        type: Array,
+        default: () => []
     }
 })
 
@@ -526,7 +539,8 @@ function getEntry(late) {
     if (!late || !late.timeStamps || late.timeStamps.length === 0) return '-';
     const first = late.timeStamps[0];
     if (!first || !first.timeStamp) return '-';
-    return first.timeStamp.split(' ')[1].substring(0, 5);
+
+    return first.timeStamp.split(' ')[1].substring(0, 8);
 }
 
 function hasSimilarity(value) {
@@ -541,18 +555,59 @@ function viewImage(image, isProfile = false) {
     imageModal.value?.showModal()
 }
 
-const computeLateTime = (timeStr) => {
+const normalizeRole = (role) => {
+    const normalized = String(role || '').trim().toLowerCase();
+    if (!normalized) return '';
+    if (normalized === 'student' || normalized === 'teacher') return normalized;
+    if (normalized.includes('นักเรียน')) return 'student';
+    if (normalized.includes('ครู')) return 'teacher';
+    return '';
+};
+
+const computeLateTime = (timeStr, role, position) => {
     if (!timeStr || timeStr === '-' || timeStr === 'ไม่มีเข้า') return '-';
+
+    let h1 = 8;
+    let m1 = 1;
+    let s1 = 0;
+
+    const targetRole =
+        normalizeRole(role) ||
+        normalizeRole(position) ||
+        normalizeRole(props.filters?.role) ||
+        'student';
+
+    if (props.allowanceRules && props.allowanceRules.length > 0) {
+        const currentRule = props.allowanceRules.find(r => r.role === targetRole && r.enabled);
+        if (currentRule && currentRule.allowance_time) {
+            const [allowH, allowM, allowS] = currentRule.allowance_time.split(':').map(Number);
+            h1 = allowH;
+            m1 = allowM;
+            s1 = allowS || 0;
+        }
+    }
+
     const [h2, m2, s2] = timeStr.split(':').map(Number);
-    const h1 = 8, m1 = 1;
-    const t1 = h1 * 60 + m1;
-    const t2 = h2 * 60 + m2;
-    if (t2 < t1) return '-';
-    let minsLate = (t2 - t1) + 1;
-    const hours = Math.floor(minsLate / 60);
-    const mins = minsLate % 60;
-    return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-}
+
+    const totalSeconds1 = (h1 * 3600) + (m1 * 60) + s1;
+    const totalSeconds2 = (h2 * 3600) + (m2 * 60) + (s2 || 0);
+
+    if (totalSeconds2 <= totalSeconds1) return 'ไม่สาย';
+
+    if (h2 === h1 && m2 === m1) {
+        return '00:01';
+    }
+
+    const diffSeconds = totalSeconds2 - totalSeconds1;
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const h = Math.floor(diffMinutes / 60);
+    const m = diffMinutes % 60;
+
+    const displayHour = String(h).padStart(2, '0');
+    const displayMin = String(m).padStart(2, '0');
+
+    return `${displayHour}:${displayMin}`;
+};
 </script>
 
 <style scoped>
