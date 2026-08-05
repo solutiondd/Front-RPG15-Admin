@@ -7,6 +7,12 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: "autoUpdate",
+      injectRegister: false,
+      workbox: {
+        clientsClaim: true,
+        skipWaiting: true,
+        cleanupOutdatedCaches: true,
+      },
       manifest: {
         name: "RPG15 School Admin",
         short_name: "RPG15Admin",

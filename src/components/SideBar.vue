@@ -420,7 +420,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                                <span>ขาดเรียน/ขาดงาน</span>
+                                <span>ขาดเรียน</span>
                             </router-link>
                         </li>
                         <li v-if="auth.user?.role !== 'teacher'">
@@ -460,7 +460,7 @@
                                 <span>พฤติกรรมเสี่ยง</span>
                             </router-link>
                         </li>
-                        <li>
+                        <!-- <li>
                             <router-link to="/home/report/stats"
                                 class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-base-200 transition-colors text-sm"
                                 :class="submenuClass('/home/report/stats')">
@@ -471,7 +471,7 @@
                                 </svg>
                                 <span>สถิติ</span>
                             </router-link>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
 
